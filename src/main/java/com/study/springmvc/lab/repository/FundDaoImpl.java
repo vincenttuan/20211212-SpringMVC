@@ -3,9 +3,11 @@ package com.study.springmvc.lab.repository;
 import java.sql.ResultSet;
 import java.util.List;
 
+import org.simpleflatmapper.jdbc.spring.JdbcTemplateMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +21,7 @@ public class FundDaoImpl implements FundDao {
 	
 	@Override
 	public List<Fund> queryAll() {
-		return queryAllCase2();
+		return queryAllCase3();
 	}
 	
 	private List<Fund> queryAllCase1() {
@@ -48,6 +50,22 @@ public class FundDaoImpl implements FundDao {
 			return fund;
 		};
 		return jdbcTemplate.query(sql, rm);
+	}
+	
+	// SimpleFlatMapping
+	// 調用 org.simpleflatmapper.jdbc.spring.JdbcTemplateMapperFactory
+	private List<Fund> queryAllCase3() {
+		// fundstocks_sid 其中 fundstocks 指的是 Fund.java 一對多的屬性命名
+		String sql = "select f.fid , f.fname , f.createtime , "
+				+ "s.sid as fundstocks_sid , s.fid as fundstocks_fid , s.symbol as fundstocks_symbol , s.share as fundstocks_share  "
+				+ "from fund f left join fundstock s "
+				+ "on f.fid = s.fid";
+		ResultSetExtractor<List<Fund>> resultSetExtractor = 
+				JdbcTemplateMapperFactory.newInstance()
+				.addKeys("fid") // Fund 的主鍵
+				.newResultSetExtractor(Fund.class);
+		
+		return jdbcTemplate.query(sql, resultSetExtractor);
 	}
 	
 
