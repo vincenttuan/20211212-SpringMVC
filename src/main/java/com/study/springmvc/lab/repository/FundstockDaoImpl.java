@@ -69,6 +69,12 @@ public class FundstockDaoImpl implements FundstockDao {
 		fundstock.setFund(fund);
 		return fundstock;
 	}
+	
+	@Override
+	public int count() {
+		String sql = "select count(*) from fundstock";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
 
 	@Override
 	public int add(Fundstock fundstock) {

@@ -16,7 +16,10 @@ public interface FundstockDao {
 
 	// 取得單筆
 	Fundstock get(Integer sid);
-
+	
+	// 查詢所有筆數
+	int count();
+	
 	// 新增
 	int add(Fundstock fundstock);
 
