@@ -61,7 +61,7 @@
 							Fundstock List&nbsp;|&nbsp;
 							<a href="${ pageContext.request.contextPath }/mvc/lab/fundstock/page/0">全部</a>
 							&nbsp;|&nbsp;
-							<c:forEach var="num" begin="1" end="${ pageTotalCount }">
+							<c:forEach var="num" begin="1" end="${ pageTotalCount+1 }">
 								<a href="${ pageContext.request.contextPath }/mvc/lab/fundstock/page/${ num }">${ num }</a>
 							</c:forEach>
 						</legend>
@@ -94,12 +94,9 @@
 				<form class="pure-form">
 					<fieldset>
 						<legend>Fundstock Chart</legend>
-						${ groupMap }
-						<!-- 透過 JSTL 將 groupMap 依序印出 
-							2317.TW, 90000
-							2330.TW, 140000
-							...
-						-->
+						<c:forEach var="map" items="${ groupMap }">
+							${ map.key }, ${ map.value } <br />
+						</c:forEach>
 						
 					</fieldset>
 				</form>
