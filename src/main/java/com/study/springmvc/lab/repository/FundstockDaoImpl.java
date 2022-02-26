@@ -72,20 +72,23 @@ public class FundstockDaoImpl implements FundstockDao {
 
 	@Override
 	public int add(Fundstock fundstock) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "insert into fundstock(fid, symbol, share) values(?, ?, ?)";
+		int rowcount = jdbcTemplate.update(sql, fundstock.getFid(), fundstock.getSymbol(), fundstock.getShare());
+		return rowcount;
 	}
 
 	@Override
 	public int update(Fundstock fundstock) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "update fundstock set fid=?, symbol=?, share=? where sid=?";
+		int rowcount = jdbcTemplate.update(sql, fundstock.getFid(), fundstock.getSymbol(), fundstock.getShare(), fundstock.getSid());
+		return rowcount;
 	}
 
 	@Override
 	public int delete(Integer sid) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "delete from fundstock where sid=?";
+		int rowcount = jdbcTemplate.update(sql, sid);
+		return rowcount;
 	}
 
 }
