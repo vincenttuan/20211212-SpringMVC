@@ -2,9 +2,11 @@ package com.study.springmvc.lab.repository;
 
 import java.util.List;
 
+import org.simpleflatmapper.jdbc.spring.JdbcTemplateMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import com.study.springmvc.lab.entity.Fundstock;
@@ -13,11 +15,19 @@ import com.study.springmvc.lab.entity.Fundstock;
 public class FundstockDaoImpl implements FundstockDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
 	@Override
 	public List<Fundstock> queryAll() {
-		String sql = "select s.sid, s.fid, s.symbol, s.share from fundstock s order by s.sid";
-		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<Fundstock>(Fundstock.class));
+		String sql = "select s.sid, s.fid, s.symbol, s.share , "
+				+ "f.fid as fund_fid , f.fname as fund_fname , f.createtime as fund_createtime  "
+				+ "from fundstock s left join fund f " + "on f.fid = s.fid";
+		ResultSetExtractor<List<Fundstock>> resultSetExtractor = 
+				JdbcTemplateMapperFactory
+				.newInstance()
+				.addKeys("sid") // Fundstock' sid																			// 的主鍵
+				.newResultSetExtractor(Fundstock.class);
+
+		return jdbcTemplate.query(sql, resultSetExtractor);
 	}
 
 	@Override
