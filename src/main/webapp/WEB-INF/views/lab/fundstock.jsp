@@ -22,8 +22,10 @@
 	<script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
+	  function drawChart() {
+		  drawChart(1);
+	  }
+      function drawChart(chartId) {
 
         var data = google.visualization.arrayToDataTable([
           ['symbol', 'share'],
@@ -36,8 +38,19 @@
           title: 'stock info'
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
+        var chart = new google.visualization.BarChart(document.getElementById('piechart'));
+        switch(chartId) {
+        	case 2:
+        		chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        		break;
+        	case 3:
+        		chart = new google.visualization.ColumnChart(document.getElementById('piechart'));
+        		break;
+        	case 4:
+        		chart = new google.visualization.LineChart(document.getElementById('piechart'));
+        		break;	
+        }
+        
         chart.draw(data, options);
       }
 	</script>
@@ -116,10 +129,14 @@
 			<td valign="top">
 				<form class="pure-form">
 					<fieldset>
-						<legend>Fundstock Chart</legend>
+						<legend>
+							Fundstock Chart |
+							<a href="#" onclick="drawChart(1)">bar</a> |
+							<a href="#" onclick="drawChart(2)">pie</a> |
+							<a href="#" onclick="drawChart(3)">column</a> |
+							<a href="#" onclick="drawChart(4)">line</a>
+						</legend>
 						<div id="piechart" style="width: 500px; height: 300px;"></div>
-						
-						
 					</fieldset>
 				</form>
 			</td>
