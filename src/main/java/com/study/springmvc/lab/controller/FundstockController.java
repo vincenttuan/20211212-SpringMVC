@@ -1,9 +1,11 @@
 package com.study.springmvc.lab.controller;
 
 import java.util.List;
+import java.util.Map;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingInt;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +46,7 @@ public class FundstockController {
 		model.addAttribute("fundstocks", fundstocks);
 		model.addAttribute("funds", funds);
 		model.addAttribute("pageTotalCount", pageTotalCount);
+		model.addAttribute("groupMap", getGroupMap());
 		return "lab/fundstock";
 	}
 	
@@ -51,5 +54,15 @@ public class FundstockController {
 	@ResponseBody
 	public Fundstock get(@PathVariable("sid") Integer sid) {
 		return fundstockDao.get(sid);
+	}
+	
+	private Map<String, Integer> getGroupMap() {
+		// select s.symbol, sum(s.share) as share
+		// from fundstock s
+		// group by s.symbol
+		List<Fundstock> fundstocks = fundstockDao.queryAll();
+		return fundstocks.stream()
+						 .collect(groupingBy(Fundstock::getSymbol, 
+											 summingInt(Fundstock::getShare)));
 	}
 }

@@ -94,6 +94,7 @@
 				<form class="pure-form">
 					<fieldset>
 						<legend>Fundstock Chart</legend>
+						<!-- 透過 JSTL 將 getGroupMap 印出 -->
 					</fieldset>
 				</form>
 			</td>
