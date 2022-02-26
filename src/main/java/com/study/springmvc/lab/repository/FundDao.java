@@ -2,7 +2,9 @@ package com.study.springmvc.lab.repository;
 
 import java.util.List;
 
-public interface Fund {
+import com.study.springmvc.lab.entity.Fund;
+
+public interface FundDao {
 	// 每頁5筆
 	int LIMIT = 5;
 

@@ -2,7 +2,9 @@ package com.study.springmvc.lab.repository;
 
 import java.util.List;
 
-public interface Fundstock {
+import com.study.springmvc.lab.entity.Fundstock;
+
+public interface FundstockDao {
 	// 每頁5筆
 	int LIMIT = 5;
 
