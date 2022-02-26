@@ -9,15 +9,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet"
-	href="https://unpkg.com/purecss@2.0.6/build/pure-min.css">
-<meta charset="UTF-8">
-<title>Fundstock Form</title>
-<style type="text/css">
-.error {
-	color: #FF0000
-}
-</style>
+	<link rel="stylesheet"
+		href="https://unpkg.com/purecss@2.0.6/build/pure-min.css">
+	<meta charset="UTF-8">
+	<title>Fundstock Form</title>
+	<style type="text/css">
+	.error {
+		color: #FF0000
+	}
+	</style>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['symbol', 'share'],
+          <c:forEach var="map" items="${ groupMap }">
+			['${ map.key }', ${ map.value }],
+		  </c:forEach>
+        ]);
+
+        var options = {
+          title: 'stock info'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+	</script>
 </head>
 <body style="padding: 15px">
 	<table>
@@ -94,9 +117,8 @@
 				<form class="pure-form">
 					<fieldset>
 						<legend>Fundstock Chart</legend>
-						<c:forEach var="map" items="${ groupMap }">
-							${ map.key }, ${ map.value } <br />
-						</c:forEach>
+						<div id="piechart" style="width: 500px; height: 300px;"></div>
+						
 						
 					</fieldset>
 				</form>
