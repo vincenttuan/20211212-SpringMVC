@@ -31,4 +31,10 @@ public class FundstockController {
 		int offset = (pageNumber-1) * FundstockDao.LIMIT;
 		return fundstockDao.queryPage(offset);
 	}
+	
+	@GetMapping("/{sid}")
+	@ResponseBody
+	public Fundstock get(@PathVariable("sid") Integer sid) {
+		return fundstockDao.get(sid);
+	}
 }
