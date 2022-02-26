@@ -31,7 +31,7 @@
 	  }
 	  
 	  function drawStockChart(symbol) {
-		  $.get("/springmvc/mvc/lab/price/histquotes/" + symbol, function(quotes, status) {
+		  $.get("${ pageContext.request.contextPath }/mvc/lab/price/histquotes/" + symbol, function(quotes, status) {
 			  //console.log("quotes:" + quotes);
 			  console.log("status:" + status);
 			  drawChartHist(symbol, quotes);
@@ -118,7 +118,10 @@
 					modelAttribute="fundstock"
 					action="${ pageContext.request.contextPath }/mvc/lab/fundstock/">
 					<fieldset>
-						<legend>Fundstock Form</legend>
+						<legend>
+							Fundstock Form | 
+							<a href="${ pageContext.request.contextPath }/mvc/lab/fund/">Fund Form</a>
+						</legend>
 						<input type="hidden" id="_method" name="_method"
 							value="${ _method }"> 序號：
 						<spform:input path="sid" />
