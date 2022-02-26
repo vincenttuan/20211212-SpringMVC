@@ -20,7 +20,7 @@ public class FundstockDaoImpl implements FundstockDao {
 	public List<Fundstock> queryAll() {
 		String sql = "select s.sid, s.fid, s.symbol, s.share , "
 				+ "f.fid as fund_fid , f.fname as fund_fname , f.createtime as fund_createtime  "
-				+ "from fundstock s left join fund f " + "on f.fid = s.fid";
+				+ "from fundstock s left join fund f " + "on f.fid = s.fid order by s.sid ";
 		ResultSetExtractor<List<Fundstock>> resultSetExtractor = 
 				JdbcTemplateMapperFactory
 				.newInstance()
@@ -32,8 +32,20 @@ public class FundstockDaoImpl implements FundstockDao {
 
 	@Override
 	public List<Fundstock> queryPage(int offset) {
-		// TODO Auto-generated method stub
-		return null;
+		if(offset < 0) {
+			return queryAll();
+		}
+		String sql = "select s.sid, s.fid, s.symbol, s.share , "
+				+ "f.fid as fund_fid , f.fname as fund_fname , f.createtime as fund_createtime  "
+				+ "from fundstock s left join fund f " + "on f.fid = s.fid order by s.sid ";
+		sql += String.format(" limit %d offset %d ", FundstockDao.LIMIT, offset);
+		ResultSetExtractor<List<Fundstock>> resultSetExtractor = 
+				JdbcTemplateMapperFactory
+				.newInstance()
+				.addKeys("sid") // Fundstock' sid																			// 的主鍵
+				.newResultSetExtractor(Fundstock.class);
+
+		return jdbcTemplate.query(sql, resultSetExtractor);
 	}
 
 	@Override
