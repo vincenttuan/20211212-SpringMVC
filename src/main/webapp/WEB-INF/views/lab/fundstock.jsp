@@ -79,6 +79,10 @@
 						<spform:errors path="share" cssClass="error" />
 						<p />
 						基金：
+						<spform:select path="fid">
+							<spform:option value="">請選擇</spform:option>
+							<spform:options items="${ funds }" itemValue="fid" itemLabel="fname" />
+						</spform:select>
 						<p />
 						<button type="submit" class="pure-button pure-button-primary"
 							${ _method=='POST'?'':'disabled' }>新增</button>
