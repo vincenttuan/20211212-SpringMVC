@@ -18,15 +18,25 @@
 		color: #FF0000
 	}
 	</style>
-	<script src="${ pageContext.request.contextPath }/js/util.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="${ pageContext.request.contextPath }/js/util.js"></script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
+      
 	  function drawChart() {
 		  drawChart(1);
+		  drawStockChart('^TWII');
 	  }
+	  
+	  function drawStockChart(symbol) {
+		  $.get("/springmvc/mvc/lab/price/histquotes/" + symbol, function(quotes, status) {
+			  console.log("quotes:" + quotes);
+			  console.log("status:" + status);
+		  });
+	  }
+	  
       function drawChart(chartId) {
 
         var data = google.visualization.arrayToDataTable([
@@ -143,6 +153,18 @@
 							<a href="#" onclick="drawChart(4)">line</a>
 						</legend>
 						<div id="piechart" style="width: 500px; height: 300px;"></div>
+					</fieldset>
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" valign="top">
+				<form class="pure-form">
+					<fieldset>
+						<legend>
+							Fundstock Chart | <a href="#" onclick="drawStockChart('^TWII')">加權股價</a>
+						</legend>
+						<div id="stockchart" style="width: 1500px; height: 500px;"></div>
 					</fieldset>
 				</form>
 			</td>
