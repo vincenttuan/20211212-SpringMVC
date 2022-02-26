@@ -29,7 +29,7 @@ public class FundstockController {
 	
 	@GetMapping("/")
 	public String index(@ModelAttribute Fundstock fundstock, Model model) {
-		return "redirect ./page/" + pageNumber;
+		return "redirect:./page/" + pageNumber;
 	}
 	
 	@GetMapping("/page/{pageNumber}")
