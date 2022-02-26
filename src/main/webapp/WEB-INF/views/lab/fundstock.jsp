@@ -61,7 +61,6 @@
 							Fundstock List&nbsp;|&nbsp;
 							<a href="${ pageContext.request.contextPath }/mvc/lab/fundstock/page/0">全部</a>
 							&nbsp;|&nbsp;
-							分頁：
 							<c:forEach var="num" begin="1" end="${ pageTotalCount }">
 								<a href="${ pageContext.request.contextPath }/mvc/lab/fundstock/page/${ num }">${ num }</a>
 							</c:forEach>
