@@ -94,7 +94,13 @@
 				<form class="pure-form">
 					<fieldset>
 						<legend>Fundstock Chart</legend>
-						<!-- 透過 JSTL 將 getGroupMap 印出 -->
+						${ groupMap }
+						<!-- 透過 JSTL 將 groupMap 依序印出 
+							2317.TW, 90000
+							2330.TW, 140000
+							...
+						-->
+						
 					</fieldset>
 				</form>
 			</td>
