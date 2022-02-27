@@ -27,10 +27,31 @@
 		$('#add').on('click', function() {
 			addOrUpdate('POST');
 		});
+		$('#myTable').on('click', 'tr', function() {
+			getItem(this);
+		});
 		$('#upt').on('click', function() {
 			addOrUpdate('PUT');
 		});
+		$('#rst').on('click', function() {
+			btnAttr(0);
+		});
 	});
+	
+	function getItem(elem) {
+		var fid = $(elem).find('td').eq(0).text().trim();
+		console.log(fid);
+		var path = '../mvc/lab/fund/' + fid;
+		var func = function(fund, status) {
+			console.log(fund);
+			// 將資料配置到 myForm 表單中
+			$('#myForm').find('#fid').val(fund.fid);
+			$('#myForm').find('#fname').val(fund.fname);
+			// 修改 btn 狀態
+			btnAttr(1);
+		};
+		$.get(path, func);
+	}
 	
 	function addOrUpdate(method) {
 		// 將表單欄位資料json物件序列化
@@ -48,6 +69,8 @@
 				console.log(respData);
 				// 列表資料更新
 				table_list();
+				// rst 狀態
+				btnAttr(0);
 			}
 		});
 	}
@@ -66,6 +89,12 @@
 				$('#myTable').append(String.format(html, item.fid, item.fname, item.createtime));
 			});
 		});
+	}
+	
+	function btnAttr(status) {
+		$('#myForm').find('#add').attr('disabled', status != 0);
+		$('#myForm').find('#upt').attr('disabled', status == 0);
+		$('#myForm').find('#del').attr('disabled', status == 0);
 	}
 </script>
 
