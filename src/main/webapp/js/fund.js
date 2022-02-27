@@ -61,7 +61,7 @@
 		var fid = $(elem).find('td').eq(0).text().trim();
 		console.log(fid);
 		var path = '../mvc/lab/fund/' + fid;
-		var func = function(fund, status) {
+		var func = function(fund) {
 			console.log(fund);
 			// 將資料配置到 myForm 表單中
 			$('#myForm').find('#fid').val(fund.fid);
@@ -125,7 +125,7 @@
 				console.log("http:" + http);
 				console.log("textStatus:" + textStatus);
 				console.log("errorThrown:" + errorThrown);
-				var errorInfoText = JSON.stringify(http)
+				var errorInfoText = JSON.stringify(http);
 				console.log(errorInfoText.includes('REFERENCES'));
 				if(errorInfoText.includes('REFERENCES')) {
 					alert('該筆資料無法刪除，原因：因為此基金下有成分股的參照');
@@ -139,6 +139,20 @@
 	// Fund List 的資料列表
 	function table_list() {
 		queryPage(0);
+		// 分頁數
+		page_list();
+	}
+	
+	// 分頁數
+	function page_list() {
+		var path = "../mvc/lab/fund/totalPagecount";
+		$('#myPageSpan').empty();
+		$.get(path, function(count) {
+			for(var i=1;i<=count;i++) {
+				var html = '<span class="mylink" onclick="queryPage({0});">{1}</span>&nbsp;';
+				$('#myPageSpan').append(String.format(html, i, i));
+			}
+		});
 	}
 	
 	function btnAttr(status) {

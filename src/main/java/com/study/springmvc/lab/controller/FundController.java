@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.springmvc.lab.entity.Fund;
 import com.study.springmvc.lab.repository.FundDao;
-import com.study.springmvc.lab.repository.FundstockDao;
 
 @RestController
 @RequestMapping("/lab/fund")
@@ -41,7 +40,7 @@ public class FundController {
 	
 	@GetMapping("/totalPagecount")
 	public int totalPagecount() {
-		return fundDao.count() / FundDao.LIMIT;
+		return (int)Math.ceil(fundDao.count() / (double)FundDao.LIMIT);
 	}
 	
 	@GetMapping("/page/{pageNumber}")
