@@ -75,7 +75,7 @@ public class FundDaoImpl implements FundDao {
 			return queryAll();
 		}
 		String sql = "select f.fid, f.fname, f.createtime from fund f order by f.fid ";
-		sql += String.format(" limit %d offset %d ", FundstockDao.LIMIT, offset);
+		sql += String.format(" limit %d offset %d ", FundDao.LIMIT, offset);
 		RowMapper<Fund> rm = (ResultSet rs, int rowNum) -> {
 			Fund fund = new Fund();
 			fund.setFid(rs.getInt("fid"));
