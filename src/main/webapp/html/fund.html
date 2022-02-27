@@ -32,6 +32,12 @@
 					required: true,
 					rangelength: [2, 50]
 				}
+			},
+			messages: { // 自訂錯誤訊息
+				fname: { 
+					required: "請輸入基金名稱",
+					rangelength: "基金名稱長度必須介於{0}~{1}之間"
+				}
 			}
 		});
 		// Fund List 的資料列表
