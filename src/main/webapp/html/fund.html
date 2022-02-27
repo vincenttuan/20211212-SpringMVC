@@ -16,6 +16,58 @@
 }
 </style>
 <script src="../js/jquery.min.js"></script>
+<script src="../js/util.js"></script>
+
+<script>
+	// 頁面載入完成後要執行的程序
+	$(document).ready(function() {
+		// Fund List 的資料列表
+		table_list();
+		// 註冊相關事件
+		$('#add').on('click', function() {
+			addOrUpdate('POST');
+		});
+		$('#upt').on('click', function() {
+			addOrUpdate('PUT');
+		});
+	});
+	
+	function addOrUpdate(method) {
+		// 將表單欄位資料json物件序列化
+		var jsonObject = $('#myForm').serializeObject();
+		// 將json物件轉為json字串
+		var jsonString = JSON.stringify(jsonObject);
+		console.log(jsonString);
+		// 將資料傳遞到後端
+		$.ajax({
+			url: "../mvc/lab/fund/",
+			type: method,
+			contentType: 'application/json;charset=utf-8',
+			data: jsonString,
+			success: function(respData) {
+				console.log(respData);
+				// 列表資料更新
+				table_list();
+			}
+		});
+	}
+	
+	// Fund List 的資料列表
+	function table_list() {
+		// 取得所有 fund 資料
+		$.get("../mvc/lab/fund/", function(datas, status) {
+			console.log(datas);
+			console.log(status);
+			// 清除目前 myTable 上的舊有資料
+			$('#myTable tbody > tr').remove();
+			// 將資料 datas 依序放入 myTable 中
+			$.each(datas, function(i, item){
+				var html = '<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>';
+				$('#myTable').append(String.format(html, item.fid, item.fname, item.createtime));
+			});
+		});
+	}
+</script>
 
 </head>
 <body style="padding: 15px">
@@ -23,7 +75,7 @@
 		<tr>
 			<!-- Fund Form -->
 			<td valign="top">
-				<form id="myform" class="pure-form">
+				<form id="myForm" class="pure-form">
 					<fieldset>
 						<legend>
 							<a href="../mvc/lab/fundstock/">Fundstock Form</a> | Fund
@@ -60,7 +112,7 @@
 								</tr>
 							</thead>
 							<tbody>
-
+								
 							</tbody>
 						</table>
 					</fieldset>
