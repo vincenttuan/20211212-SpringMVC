@@ -53,10 +53,10 @@
 			<a href="./mvc/case04/stock/">./mvc/case04/stock/</a>
 		</li>
 		<li>
-			<a href="./mvc/lab/fund/">./mvc/lab/fund/</a>
+			<a href="./mvc/lab/fundstock/">./mvc/lab/fundstock/</a>
 		</li>
 		<li>
-			<a href="./mvc/lab/fundstock/">./mvc/lab/fundstock/</a>
+			<a href="./html/fund.html">./html/fund.html</a>
 		</li>
 		
 	</ol>
