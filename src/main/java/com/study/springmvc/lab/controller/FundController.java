@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.springmvc.lab.entity.Fund;
 import com.study.springmvc.lab.repository.FundDao;
+import com.study.springmvc.lab.repository.FundstockDao;
 
 @RestController
 @RequestMapping("/lab/fund")
 public class FundController {
-	
+	private int pageNumber;
 	@Autowired
 	private FundDao fundDao;
 	
@@ -36,6 +37,13 @@ public class FundController {
 	@GetMapping("/{fid}")
 	public Fund get(@PathVariable("fid") Integer fid) {
 		return fundDao.get(fid);
+	}
+	
+	@GetMapping("/page/{pageNumber}")
+	public List<Fund> page(@PathVariable("pageNumber") int pageNumber) {
+		this.pageNumber = pageNumber;
+		int offset = (pageNumber-1) * FundDao.LIMIT;
+		return fundDao.queryPage(offset);
 	}
 	
 	@PostMapping("/")
