@@ -23,6 +23,17 @@
 <script>
 	// 頁面載入完成後要執行的程序
 	$(document).ready(function() {
+		// 驗證註冊
+		$('#myForm').validate({
+			onsubmit: false,
+			onkeyup: false,
+			rules: {
+				fname: { // fname 指的是 input 輸入框標籤的 name 而不是 id
+					required: true,
+					rangelength: [2, 50]
+				}
+			}
+		});
 		// Fund List 的資料列表
 		table_list();
 		// 註冊相關事件
@@ -64,6 +75,11 @@
 	}
 	
 	function addOrUpdate(method) {
+		// 驗證
+		console.log($('#myForm').valid());
+		if(!$('#myForm').valid()) { // 判斷是否表單驗證成功？
+			return;
+		}
 		// 將表單欄位資料json物件序列化
 		var jsonObject = $('#myForm').serializeObject();
 		// 將json物件轉為json字串
