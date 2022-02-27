@@ -24,7 +24,13 @@ public class FundController {
 	
 	@GetMapping("/")
 	public List<Fund> index() {
-		return fundDao.queryAll();
+		List<Fund> funds = fundDao.queryAll();
+		// 將沒有成分股的基金其 fundstocks 屬性置空(null)
+		funds.stream()
+			.filter(f -> f.getFundstocks() != null)
+			.filter(f -> f.getFundstocks().get(0).getFid() == null)
+			.forEach(f -> f.setFundstocks(null));
+		return funds;
 	}
 	
 	@GetMapping("/{fid}")

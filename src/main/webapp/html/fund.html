@@ -79,6 +79,8 @@
 				table_list();
 				// rst 狀態
 				btnAttr(0);
+				// form reset
+				$('#myForm').trigger('reset');
 			}
 		});
 	}
@@ -95,6 +97,8 @@
 				table_list();
 				// rst 狀態
 				btnAttr(0);
+				// form reset
+				$('#myForm').trigger('reset');
 			},
 			error: function(http, textStatus, errorThrown) {
 				console.log("http:" + http);
@@ -121,10 +125,11 @@
 			$('#myTable tbody > tr').remove();
 			// 將資料 datas 依序放入 myTable 中
 			$.each(datas, function(i, item){
-				var html = '<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>';
-				$('#myTable').append(String.format(html, item.fid, item.fname, item.createtime));
+				var html = '<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>';
+				$('#myTable').append(String.format(html, item.fid, item.fname, item.createtime, item.fundstocks));
 			});
 		});
+		
 	}
 	
 	function btnAttr(status) {
@@ -132,6 +137,7 @@
 		$('#myForm').find('#upt').attr('disabled', status == 0);
 		$('#myForm').find('#del').attr('disabled', status == 0);
 	}
+	
 </script>
 
 </head>
@@ -174,6 +180,7 @@
 									<th>基金序號</th>
 									<th>基金名稱</th>
 									<th>建立日期</th>
+									<th>成分股</th>
 								</tr>
 							</thead>
 							<tbody>
