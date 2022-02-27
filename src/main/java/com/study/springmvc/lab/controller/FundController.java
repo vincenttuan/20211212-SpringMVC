@@ -39,6 +39,11 @@ public class FundController {
 		return fundDao.get(fid);
 	}
 	
+	@GetMapping("/totalPagecount")
+	public int totalPagecount() {
+		return fundDao.count() / FundDao.LIMIT;
+	}
+	
 	@GetMapping("/page/{pageNumber}")
 	public List<Fund> page(@PathVariable("pageNumber") int pageNumber) {
 		this.pageNumber = pageNumber;
