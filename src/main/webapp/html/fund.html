@@ -60,6 +60,26 @@
 		});
 	});
 	
+	// 分頁查詢
+	function queryPage(pageNumber) {
+		var path = "../mvc/lab/fund/";
+		if(pageNumber > 0) {
+			path = "../mvc/lab/fund/page/" + pageNumber;
+		}
+		// 取得所有 fund 資料
+		$.get(path, function(datas, status) {
+			console.log(datas);
+			console.log(status);
+			// 清除目前 myTable 上的舊有資料
+			$('#myTable tbody > tr').remove();
+			// 將資料 datas 依序放入 myTable 中
+			$.each(datas, function(i, item){
+				var html = '<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>';
+				$('#myTable').append(String.format(html, item.fid, item.fname, item.createtime, item.fundstocks));
+			});
+		});
+	}
+	
 	function getItem(elem) {
 		var fid = $(elem).find('td').eq(0).text().trim();
 		console.log(fid);
@@ -141,19 +161,7 @@
 	
 	// Fund List 的資料列表
 	function table_list() {
-		// 取得所有 fund 資料
-		$.get("../mvc/lab/fund/", function(datas, status) {
-			console.log(datas);
-			console.log(status);
-			// 清除目前 myTable 上的舊有資料
-			$('#myTable tbody > tr').remove();
-			// 將資料 datas 依序放入 myTable 中
-			$.each(datas, function(i, item){
-				var html = '<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>';
-				$('#myTable').append(String.format(html, item.fid, item.fname, item.createtime, item.fundstocks));
-			});
-		});
-		
+		queryPage(0);
 	}
 	
 	function btnAttr(status) {
@@ -197,7 +205,12 @@
 			<td valign="top">
 				<form class="pure-form">
 					<fieldset>
-						<legend> Fund List </legend>
+						<legend> Fund List&nbsp;|&nbsp;
+							<span class="mylink" onclick="queryPage(0);">全部</span>
+							&nbsp;|&nbsp;
+							<span class="mylink" onclick="queryPage(1);">1</span>&nbsp;
+							<span class="mylink" onclick="queryPage(2);">2</span>
+						</legpend>
 						<table id="myTable" class="pure-table pure-table-bordered">
 							<thead>
 								<tr>
