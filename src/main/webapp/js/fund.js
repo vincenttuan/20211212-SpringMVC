@@ -1,3 +1,5 @@
+	var pageNumber = 0;
+	var totalPageNumber = 0;
 	// 頁面載入完成後要執行的程序
 	$(document).ready(function() {
 		// 驗證註冊
@@ -34,6 +36,7 @@
 		});
 		$('#rst').on('click', function() {
 			btnAttr(0);
+			$('#myForm').trigger('reset');
 		});
 	});
 	
@@ -43,6 +46,7 @@
 		if(pageNumber > 0) {
 			path = "../mvc/lab/fund/page/" + pageNumber;
 		}
+		this.pageNumber = pageNumber;
 		// 取得所有 fund 資料
 		$.get(path, function(datas, status) {
 			console.log(datas);
@@ -52,9 +56,19 @@
 			// 將資料 datas 依序放入 myTable 中
 			$.each(datas, function(i, item){
 				var html = '<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>';
-				$('#myTable').append(String.format(html, item.fid, item.fname, item.createtime, item.fundstocks));
+				$('#myTable').append(String.format(html, item.fid, item.fname, item.createtime, parseFundstocks(item.fundstocks)));
 			});
 		});
+	}
+	
+	function parseFundstocks(datas) {
+		if(datas == null) return "";
+		var str = '';
+		$.each(datas, function(i, item){
+			str += item.symbol + '、';
+		});
+		str = str.substring(0, str.length-1);
+		return str;
 	}
 	
 	function getItem(elem) {
@@ -99,9 +113,7 @@
 				// 列表資料更新
 				table_list();
 				// rst 狀態
-				btnAttr(0);
-				// form reset
-				$('#myForm').trigger('reset');
+				$('#myForm').find('#rst').trigger('click');
 			}
 		});
 	}
@@ -117,9 +129,7 @@
 				// 列表資料更新
 				table_list();
 				// rst 狀態
-				btnAttr(0);
-				// form reset
-				$('#myForm').trigger('reset');
+				$('#myForm').find('#rst').trigger('click');
 			},
 			error: function(http, textStatus, errorThrown) {
 				console.log("http:" + http);
@@ -138,7 +148,7 @@
 	
 	// Fund List 的資料列表
 	function table_list() {
-		queryPage(0);
+		queryPage(pageNumber);
 		// 分頁數
 		page_list();
 	}
@@ -147,8 +157,9 @@
 	function page_list() {
 		var path = "../mvc/lab/fund/totalPagecount";
 		$('#myPageSpan').empty();
-		$.get(path, function(count) {
-			for(var i=1;i<=count;i++) {
+		$.get(path, function(totalPageNumber) {
+			this.totalPageNumber = totalPageNumber;
+			for(var i=1;i<=totalPageNumber;i++) {
 				var html = '<span class="mylink" onclick="queryPage({0});">{1}</span>&nbsp;';
 				$('#myPageSpan').append(String.format(html, i, i));
 			}
